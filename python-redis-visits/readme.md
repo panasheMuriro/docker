@@ -1,0 +1,1 @@
+A Python Flask web app that counts page visits using a Redis database — both running in Docker containers.
