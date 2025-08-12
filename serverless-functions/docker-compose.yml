@@ -1,0 +1,5 @@
+services:
+  fnserver:
+    image: fnproject/fnserver:latest
+    ports:
+      - "8080:8080"

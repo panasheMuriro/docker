@@ -1,0 +1,29 @@
+services:
+  app:
+    build: ./app
+    ports:
+      - "4000:4000"
+    logging:
+      driver: "json-file" # Default logging driver, Promtail can scrape this
+
+  loki:
+    image: grafana/loki:2.8.2
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+
+  promtail:
+    image: grafana/promtail:2.8.2
+    volumes:
+      - "/var/log:/var/log:ro"
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      - "/etc/machine-id:/etc/machine-id:ro"
+      - "./promtail-config.yaml:/etc/promtail/config.yaml:ro"
+    command: -config.file=/etc/promtail/config.yaml
+
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "4001:3000"
