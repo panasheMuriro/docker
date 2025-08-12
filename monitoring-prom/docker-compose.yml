@@ -1,0 +1,19 @@
+services:
+  app:
+    build: ./app
+    ports:
+      - "4000:3000"  # Now app runs at localhost:4000
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "4001:3000"  # Now Grafana runs at localhost:4001
